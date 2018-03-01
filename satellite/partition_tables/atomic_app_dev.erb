@@ -1,0 +1,26 @@
+<%#
+kind: ptable
+name: Kickstart default
+oses:
+- CentOS 5
+- CentOS 6
+- CentOS 7
+- Fedora 16
+- Fedora 17
+- Fedora 18
+- Fedora 19
+- Fedora 20
+- RedHat 5
+- RedHat 6
+- RedHat 7
+%>
+zerombr
+clearpart --all --drives=/dev/sda
+###################################
+part /boot --fstype ext4 --size=512
+part pv.01 --size=200 --grow --ondisk=/dev/sda
+volgroup vg01 pv.01
+logvol / --vgname=vg01 --fstype="xfs" --size=10000 --name=lv_root
+logvol /var --vgname=vg01 --fstype="xfs" --size=25000 --name=lv_var
+logvol /var/log --vgname=vg01 --fstype="xfs" --size=15000 --name=lv_var_log
+logvol swap --vgname=vg01 --fstype="swap" --size=4096 --name=swap
